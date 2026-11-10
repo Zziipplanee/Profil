@@ -3,256 +3,607 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Irma Mulya Adnandita | Wizarding Profile</title>
-  <!-- Google Fonts & Font Awesome Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <title>Irma Mulya Adnandita | Hogwarts Wizarding Profile</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
+    /* Custom Scrollbar & Variables */
     :root {
-      --bg-gradient: radial-gradient(circle at top, #1a0b2e 0%, #090314 100%);
-      --glass-bg: rgba(255, 255, 255, 0.05);
-      --glass-border: rgba(212, 175, 55, 0.25);
       --gold-accent: #ffd700;
+      --gold-glow: rgba(255, 215, 0, 0.4);
       --magic-purple: #9d4edd;
-      --glow-shadow: 0 0 25px rgba(157, 78, 221, 0.35);
-      --text-main: #f0e6ff;
-      --text-muted: #b8a7d1;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+      --glass-bg: rgba(18, 10, 36, 0.55);
+      --glass-border: rgba(212, 175, 55, 0.3);
     }
 
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background: var(--bg-gradient);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 2rem 1rem;
-      position: relative;
+      background-color: #05020a;
+      color: #f0e6ff;
       overflow-x: hidden;
+      user-select: none;
     }
 
-    /* Background Hogwarts Glowing Elements */
-    .bg-glow-1 {
-      position: absolute;
-      top: 15%;
-      left: 20%;
-      width: 300px;
-      height: 300px;
-      background: rgba(157, 78, 221, 0.25);
-      filter: blur(120px);
-      border-radius: 50%;
+    .font-cinzel {
+      font-family: 'Cinzel', serif;
+    }
+
+    .font-pixel {
+      font-family: 'Press Start 2P', monospace;
+    }
+
+    /* Fullscreen Canvas */
+    #pixelCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       z-index: 0;
+      image-rendering: pixelated;
     }
 
-    .bg-glow-2 {
-      position: absolute;
-      bottom: 10%;
-      right: 20%;
-      width: 250px;
-      height: 250px;
-      background: rgba(212, 175, 55, 0.15);
-      filter: blur(100px);
-      border-radius: 50%;
-      z-index: 0;
-    }
-
-    /* Main Glassmorphism Card */
-    .profile-card {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 450px;
+    /* Glassmorphism Card styling */
+    .glass-card {
       background: var(--glass-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       border: 1px solid var(--glass-border);
-      border-radius: 28px;
-      padding: 2.5rem 2rem;
-      text-align: center;
-      box-shadow: var(--glow-shadow), 0 20px 40px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 35px rgba(157, 78, 221, 0.25), inset 0 0 15px rgba(212, 175, 55, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    /* Header Badge & Title */
-    .role-badge {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--gold-accent);
-      border: 1px solid var(--gold-accent);
-      padding: 6px 16px;
-      border-radius: 50px;
-      margin-bottom: 1.2rem;
-      background: rgba(255, 215, 0, 0.08);
+    .glass-card:hover {
+      box-shadow: 0 0 45px rgba(255, 215, 0, 0.35), inset 0 0 20px rgba(157, 78, 221, 0.2);
     }
 
-    .profile-name {
-      font-family: 'Cinzel', serif;
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: #ffffff;
-      text-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
-      margin-bottom: 0.4rem;
-      letter-spacing: 1px;
+    /* Floating Hogwarts Letter Element */
+    .hogwarts-letter {
+      position: fixed;
+      pointer-events: none;
+      z-index: 50;
+      width: 60px;
+      height: 42px;
+      animation: floatUpFade 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      transform-origin: center;
     }
 
-    .profile-subtitle {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-bottom: 1.8rem;
+    @keyframes floatUpFade {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.3) rotate(-15deg);
+      }
+      20% {
+        opacity: 1;
+        transform: translate(-50%, -60%) scale(1.1) rotate(5deg);
+      }
+      80% {
+        opacity: 0.9;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -150px) scale(0.8) rotate(15deg);
+      }
     }
 
-    /* Skill Pills Grid */
-    .skills-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 2rem;
+    /* Glowing Seal Pulse */
+    .wax-seal {
+      filter: drop-shadow(0 0 4px rgba(255, 0, 0, 0.8));
     }
 
-    .skill-pill {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: var(--text-main);
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.3s ease;
+    /* Sound Toggle Pill */
+    .sound-toggle {
+      background: rgba(10, 5, 20, 0.7);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(8px);
     }
 
-    .skill-pill i {
-      color: var(--gold-accent);
+    /* Custom Pulsing Badge */
+    .badge-pulse {
+      animation: pulseGlow 2.5s infinite alternate;
     }
 
-    .skill-pill:hover {
-      background: rgba(157, 78, 221, 0.2);
-      border-color: var(--magic-purple);
-      transform: translateY(-2px);
-    }
-
-    /* Magical Stats Counter Grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 2.2rem;
-      background: rgba(0, 0, 0, 0.25);
-      padding: 1.2rem 0.8rem;
-      border-radius: 18px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .stat-item h3 {
-      font-family: 'Cinzel', serif;
-      font-size: 1.4rem;
-      color: var(--gold-accent);
-      margin-bottom: 2px;
-    }
-
-    .stat-item p {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    /* Glowing Action Button */
-    .cta-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: 14px 24px;
-      background: linear-gradient(135deg, #7b2cbf 0%, #9d4edd 100%);
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 0.95rem;
-      text-decoration: none;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 4px 15px rgba(157, 78, 221, 0.4);
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .cta-button:hover {
-      box-shadow: 0 6px 25px rgba(255, 215, 0, 0.5);
-      transform: translateY(-2px);
-      background: linear-gradient(135deg, #9d4edd 0%, #c77dff 100%);
-    }
-
-    .footer-note {
-      margin-top: 1.5rem;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      font-style: italic;
+    @keyframes pulseGlow {
+      0% {
+        box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+      }
+      100% {
+        box-shadow: 0 0 18px rgba(255, 215, 0, 0.6);
+      }
     }
   </style>
 </head>
-<body>
+<body class="min-h-screen flex items-center justify-center relative p-4 sm:p-6 overflow-hidden">
 
-  <!-- Ambient Glowing Orbs -->
-  <div class="bg-glow-1"></div>
-  <div class="bg-glow-2"></div>
+  <!-- Background Pixel Art Canvas -->
+  <canvas id="pixelCanvas"></canvas>
 
-  <!-- Profile Card Container -->
-  <div class="profile-card">
+  <!-- Sound & Audio Control -->
+  <div class="fixed top-4 right-4 z-40 flex items-center gap-3">
+    <button id="audioBtn" class="sound-toggle text-xs font-semibold px-4 py-2 rounded-full text-yellow-300 hover:text-white transition flex items-center gap-2 shadow-lg cursor-pointer">
+      <i class="fa-solid fa-wand-magic-sparkles" id="audioIcon"></i>
+      <span id="audioText">Magic Audio: OFF</span>
+    </button>
+  </div>
+
+  <!-- Interactive Hint Banner -->
+  <div class="fixed top-4 left-4 z-40 hidden sm:flex items-center gap-2 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full border border-yellow-500/30 text-xs text-purple-200">
+    <i class="fa-solid fa-hand-pointer text-yellow-400 animate-bounce"></i>
+    <span>Click anywhere to cast Lumos & summon Hogwarts Letters!</span>
+  </div>
+
+  <!-- Main Glassmorphism Profile Card -->
+  <main class="relative z-10 w-full max-w-md glass-card rounded-3xl p-6 sm:p-8 text-center my-auto">
     
-    <!-- Role Badge -->
-    <span class="role-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Student Wizard</span>
-
-    <!-- Name & Subtitle -->
-    <h1 class="profile-name">IRMA MULYA ADNANDITA</h1>
-    <p class="profile-subtitle">Communication & Information Management</p>
-
-    <!-- Skill Pills -->
-    <div class="skills-container">
-      <span class="skill-pill"><i class="fa-solid fa-cloud"></i> Cloud Computing</span>
-      <span class="skill-pill"><i class="fa-solid fa-code"></i> Web Development</span>
-      <span class="skill-pill"><i class="fa-solid fa-database"></i> Data Systems</span>
-      <span class="skill-pill"><i class="fa-solid fa-camera"></i> Muggle Lens</span>
+    <!-- Top Role Badge -->
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-yellow-400/50 bg-yellow-500/10 text-yellow-300 font-semibold text-xs tracking-widest uppercase mb-5 badge-pulse">
+      <i class="fa-solid fa-bolt text-yellow-400"></i>
+      <span>STUDENT WIZARD</span>
     </div>
 
-    <!-- Magical Stats -->
-    <div class="stats-grid">
-      <div class="stat-item">
-        <h3>100+</h3>
-        <p>Spells Cast</p>
+    <!-- Name & Subtitle -->
+    <h1 class="font-cinzel text-2xl sm:text-3xl font-black text-white tracking-wider mb-1 drop-shadow-[0_0_12px_rgba(255,215,0,0.5)]">
+      IRMA MULYA ADNANDITA
+    </h1>
+    <p class="text-sm text-purple-200/80 mb-6 font-medium">
+      Communication & Information Management
+    </p>
+
+    <!-- Bio Summary -->
+    <p class="text-xs sm:text-sm text-purple-100/70 italic mb-6 leading-relaxed bg-black/20 p-3 rounded-xl border border-white/5">
+      🔮 Capturing Muggle moments through the lens, managing data streams, and awaiting the Hogwarts owl that lost its way.
+    </p>
+
+    <!-- Skill Pills Grid -->
+    <div class="flex flex-wrap justify-center gap-2 mb-6">
+      <div class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-medium text-purple-200 flex items-center gap-1.5 hover:border-purple-400/50 transition cursor-default">
+        <i class="fa-solid fa-cloud text-sky-400"></i> Cloud Computing
       </div>
-      <div class="stat-item">
-        <h3>174+</h3>
-        <p>Skills Acquired</p>
+      <div class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-medium text-purple-200 flex items-center gap-1.5 hover:border-purple-400/50 transition cursor-default">
+        <i class="fa-solid fa-wand-magic text-yellow-400"></i> Web Sorcery
       </div>
-      <div class="stat-item">
-        <h3>50%</h3>
-        <p>Coffee Energy</p>
+      <div class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-medium text-purple-200 flex items-center gap-1.5 hover:border-purple-400/50 transition cursor-default">
+        <i class="fa-solid fa-database text-indigo-400"></i> Data Systems
+      </div>
+      <div class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-medium text-purple-200 flex items-center gap-1.5 hover:border-purple-400/50 transition cursor-default">
+        <i class="fa-solid fa-camera text-pink-400"></i> Muggle Lens
+      </div>
+    </div>
+
+    <!-- Stats Counter Box -->
+    <div class="grid grid-cols-3 gap-2 bg-black/40 p-3 rounded-2xl border border-white/10 mb-6">
+      <div class="text-center p-1">
+        <div class="font-cinzel text-lg sm:text-xl font-bold text-yellow-300">100+</div>
+        <div class="text-[10px] sm:text-xs text-purple-300/70 uppercase tracking-wide">Spells Cast</div>
+      </div>
+      <div class="text-center p-1 border-x border-white/10">
+        <div class="font-cinzel text-lg sm:text-xl font-bold text-yellow-300">174+</div>
+        <div class="text-[10px] sm:text-xs text-purple-300/70 uppercase tracking-wide">Skills Acquired</div>
+      </div>
+      <div class="text-center p-1">
+        <div class="font-cinzel text-lg sm:text-xl font-bold text-yellow-300">50%</div>
+        <div class="text-[10px] sm:text-xs text-purple-300/70 uppercase tracking-wide">Coffee Energy</div>
       </div>
     </div>
 
     <!-- Call to Action Button -->
-    <a href="mailto:irmamulya0179@gmail.com" class="cta-button">
-      <i class="fa-solid fa-paper-plane"></i> Send Owl Message
+    <a id="owlDispatchBtn" href="mailto:irmamulya0179@gmail.com" class="relative group overflow-hidden w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-purple-700 via-indigo-600 to-purple-800 text-white font-bold text-sm tracking-wide shadow-lg border border-yellow-400/40 hover:border-yellow-300 transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer">
+      <div class="absolute inset-0 w-1/2 h-full bg-white/20 skew-x-12 -translate-x-full group-hover:translate-x-[300%] transition-transform duration-1000"></div>
+      <i class="fa-solid fa-envelope-open-text text-yellow-300 text-base group-hover:rotate-12 transition-transform"></i>
+      <span>Send Owl Message</span>
     </a>
 
     <!-- Footer Quote -->
-    <p class="footer-note">✨ Still waiting for my Hogwarts acceptance letter...</p>
-    
-  </div>
+    <p class="mt-5 text-[11px] text-purple-300/50 italic flex items-center justify-center gap-1">
+      <i class="fa-solid fa-hat-wizard text-yellow-500/70"></i>
+      Mischief Managed &bull; Hogwarts Class of 2026
+    </p>
 
+  </main>
+
+  <script>
+    /* ===================================================
+       1. CANVAS PIXEL ART ENGINE (Hogwarts Castle & Hedwig)
+       =================================================== */
+    const canvas = document.getElementById('pixelCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let width, height;
+    let stars = [];
+    let particles = [];
+    let letters = [];
+
+    // Hedwig Owl State
+    const hedwig = {
+      x: -50,
+      y: 120,
+      vx: 1.2,
+      vy: 0,
+      wingState: 0,
+      wingTimer: 0,
+      scale: 2.2
+    };
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      initStars();
+    }
+
+    function initStars() {
+      stars = [];
+      const count = Math.floor((width * height) / 3000);
+      for (let i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * width,
+          y: Math.random() * (height * 0.7),
+          size: Math.random() < 0.8 ? 1 : 2,
+          alpha: Math.random(),
+          speed: 0.01 + Math.random() * 0.03
+        });
+      }
+    }
+
+    // Pixel Art Castle Generator Procedure
+    function drawPixelCastle() {
+      const castleWidth = Math.min(600, width * 0.8);
+      const startX = width / 2 - castleWidth / 2;
+      const baseY = height;
+
+      ctx.fillStyle = '#060212'; // Deep silhouette background
+
+      // Distant Mountains Silhouette
+      ctx.beginPath();
+      ctx.moveTo(0, height);
+      ctx.lineTo(0, height - 120);
+      ctx.lineTo(width * 0.2, height - 180);
+      ctx.lineTo(width * 0.5, height - 130);
+      ctx.lineTo(width * 0.8, height - 200);
+      ctx.lineTo(width, height - 110);
+      ctx.lineTo(width, height);
+      ctx.fillStyle = '#080418';
+      ctx.fill();
+
+      // Hogwarts Main Silhouettes (Pixelated Towers & Roofs)
+      const px = 4; // Pixel block size
+
+      function drawPixelRect(x, y, w, h, color) {
+        ctx.fillStyle = color;
+        ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+      }
+
+      const cBase = '#0c0620';
+      const cHighlight = '#180e38';
+      const cWindow = '#ffd700';
+
+      // Great Hall & Main Keeps
+      drawPixelRect(startX + 80, baseY - 160, 240, 160, cBase);
+      drawPixelRect(startX + 120, baseY - 200, 160, 40, cBase);
+
+      // Spire 1 (Astronomy Tower - Tallest)
+      const t1X = startX + 100;
+      drawPixelRect(t1X, baseY - 310, 40, 150, cBase);
+      // Spire Roof
+      for (let i = 0; i < 10; i++) {
+        drawPixelRect(t1X + i * 2, baseY - 310 - (i * 6), 40 - (i * 4), 6, cBase);
+      }
+
+      // Spire 2 (Gryffindor Tower)
+      const t2X = startX + 280;
+      drawPixelRect(t2X, baseY - 260, 50, 100, cBase);
+      for (let i = 0; i < 12; i++) {
+        drawPixelRect(t2X + i * 2, baseY - 260 - (i * 5), 50 - (i * 4), 5, cBase);
+      }
+
+      // Small Turrets
+      drawPixelRect(startX + 60, baseY - 210, 25, 50, cBase);
+      drawPixelRect(startX + 340, baseY - 190, 30, 40, cBase);
+
+      // Glowing Windows (Pixelated details)
+      const windowSpots = [
+        {x: t1X + 16, y: baseY - 270},
+        {x: t1X + 16, y: baseY - 230},
+        {x: t2X + 20, y: baseY - 220},
+        {x: t2X + 20, y: baseY - 180},
+        {x: startX + 150, y: baseY - 120},
+        {x: startX + 190, y: baseY - 120},
+        {x: startX + 230, y: baseY - 120},
+        {x: startX + 170, y: baseY - 80},
+        {x: startX + 210, y: baseY - 80},
+      ];
+
+      windowSpots.forEach(w => {
+        ctx.fillStyle = cWindow;
+        ctx.shadowColor = '#ffd700';
+        ctx.shadowBlur = 8;
+        ctx.fillRect(w.x, w.y, 8, 12);
+        ctx.shadowBlur = 0;
+      });
+    }
+
+    // Moon Renderer
+    function drawPixelMoon() {
+      const moonX = width * 0.8;
+      const moonY = height * 0.2;
+      const radius = 45;
+
+      // Glow behind moon
+      const grad = ctx.createRadialGradient(moonX, moonY, 10, moonX, moonY, 120);
+      grad.addColorStop(0, 'rgba(255, 245, 205, 0.4)');
+      grad.addColorStop(1, 'rgba(255, 245, 205, 0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(moonX, moonY, 120, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Pixelated Moon Body
+      ctx.fillStyle = '#fff9e6';
+      ctx.beginPath();
+      ctx.arc(moonX, moonY, radius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Moon Craters
+      ctx.fillStyle = '#e6dbc2';
+      ctx.fillRect(moonX - 15, moonY - 10, 12, 10);
+      ctx.fillRect(moonX + 10, moonY + 12, 14, 8);
+      ctx.fillRect(moonX - 5, moonY + 18, 8, 8);
+    }
+
+    // Hedwig Flying Pixel Art Sprite Renderer
+    function drawHedwig() {
+      ctx.save();
+      ctx.translate(hedwig.x, hedwig.y);
+      ctx.scale(hedwig.scale, hedwig.scale);
+
+      const p = 2; // Pixel scale size for owl
+
+      // Wing flaps animation calculation
+      hedwig.wingTimer += 0.08;
+      const wingPos = Math.sin(hedwig.wingTimer);
+
+      // Body (White Pixel Art Snowy Owl)
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(-4 * p, -3 * p, 8 * p, 8 * p); // Main torso
+
+      // Head
+      ctx.fillRect(-3 * p, -7 * p, 7 * p, 4 * p);
+
+      // Eyes (Yellow with Black Pupil)
+      ctx.fillStyle = '#ffd700';
+      ctx.fillRect(1 * p, -6 * p, 2 * p, 2 * p);
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(2 * p, -6 * p, 1 * p, 1 * p);
+
+      // Beak
+      ctx.fillStyle = '#dda15e';
+      ctx.fillRect(3 * p, -4 * p, 2 * p, 1 * p);
+
+      // Feather spots (Snowy owl details)
+      ctx.fillStyle = '#4a4e69';
+      ctx.fillRect(-2 * p, -1 * p, 1 * p, 1 * p);
+      ctx.fillRect(0, 1 * p, 1 * p, 1 * p);
+      ctx.fillRect(-2 * p, 3 * p, 1 * p, 1 * p);
+
+      // Tail Feathers
+      ctx.fillStyle = '#f8f9fa';
+      ctx.fillRect(-7 * p, 1 * p, 3 * p, 2 * p);
+
+      // Wings (Animated position)
+      ctx.fillStyle = '#edf2f4';
+      if (wingPos > 0) {
+        // Wings Up
+        ctx.fillRect(-5 * p, -8 * p, 5 * p, 6 * p);
+        ctx.fillRect(-8 * p, -11 * p, 4 * p, 4 * p);
+      } else {
+        // Wings Down
+        ctx.fillRect(-5 * p, 0 * p, 5 * p, 6 * p);
+        ctx.fillRect(-8 * p, 4 * p, 4 * p, 4 * p);
+      }
+
+      // Hogwarts Letter carried in claws!
+      ctx.fillStyle = '#fefae0'; // Envelope paper
+      ctx.fillRect(-1 * p, 5 * p, 5 * p, 3 * p);
+      ctx.fillStyle = '#b7094c'; // Red Wax Seal
+      ctx.fillRect(1 * p, 6 * p, 1 * p, 1 * p);
+
+      ctx.restore();
+
+      // Update position
+      hedwig.x += hedwig.vx;
+      hedwig.y += Math.sin(hedwig.x * 0.015) * 0.5;
+
+      // Loop Hedwig across screen
+      if (hedwig.x > width + 60) {
+        hedwig.x = -60;
+        hedwig.y = 80 + Math.random() * (height * 0.3);
+      }
+    }
+
+    // Lumos Particle Effect Logic
+    function createLumosSparks(x, y) {
+      for (let i = 0; i < 18; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 1 + Math.random() * 4;
+        particles.push({
+          x: x,
+          y: y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size: 2 + Math.random() * 3,
+          color: Math.random() < 0.6 ? '#ffd700' : (Math.random() < 0.5 ? '#9d4edd' : '#ffffff'),
+          alpha: 1,
+          decay: 0.02 + Math.random() * 0.03
+        });
+      }
+    }
+
+    function updateAndDrawParticles() {
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.alpha -= p.decay;
+
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 6;
+        ctx.fillRect(p.x, p.y, p.size, p.size);
+        ctx.restore();
+      }
+    }
+
+    // Main Render Loop
+    function animate() {
+      // Clear with dark sky tone
+      ctx.fillStyle = '#05020a';
+      ctx.fillRect(0, 0, width, height);
+
+      // Render Stars
+      stars.forEach(star => {
+        star.alpha += star.speed;
+        if (star.alpha > 1 || star.alpha < 0.2) star.speed = -star.speed;
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(star.alpha)})`;
+        ctx.fillRect(star.x, star.y, star.size, star.size);
+      });
+
+      drawPixelMoon();
+      drawPixelCastle();
+      drawHedwig();
+      updateAndDrawParticles();
+
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    animate();
+
+
+    /* ===================================================
+       2. INTERACTIVE HOGWARTS LETTER SPAWNER
+       =================================================== */
+    function spawnHogwartsLetter(x, y) {
+      const letter = document.createElement('div');
+      letter.className = 'hogwarts-letter';
+      letter.style.left = `${x}px`;
+      letter.style.top = `${y}px`;
+
+      // HTML SVG Structure for Hogwarts Envelope with Red Wax Seal
+      letter.innerHTML = `
+        <svg viewBox="0 0 60 42" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
+          <!-- Envelope Body -->
+          <rect width="60" height="42" rx="4" fill="#FDF6E2" stroke="#D4AF37" stroke-width="1.5"/>
+          <!-- Envelope Flap Lines -->
+          <path d="M2 2L30 24L58 2" stroke="#CDBA88" stroke-width="1.5"/>
+          <path d="M2 40L22 20" stroke="#E2D4B0" stroke-width="1.2"/>
+          <path d="M58 40L38 20" stroke="#E2D4B0" stroke-width="1.2"/>
+          <!-- Red Wax Seal H -->
+          <circle cx="30" cy="22" r="7" fill="#900C3F" class="wax-seal"/>
+          <text x="30" y="25" font-family="Cinzel, serif" font-size="8" font-weight="900" fill="#FFD700" text-anchor="middle">H</text>
+        </svg>
+      `;
+
+      document.body.appendChild(letter);
+
+      // Remove DOM node after animation finishes
+      setTimeout(() => {
+        letter.remove();
+      }, 2200);
+    }
+
+    /* ===================================================
+       3. WEB AUDIO API SYNTHESIS (Magical Chime Effects)
+       =================================================== */
+    let audioEnabled = false;
+    let audioCtx = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playMagicChime() {
+      if (!audioEnabled || !audioCtx) return;
+
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      // Sparkling high frequency pitch pentatonic arpeggio
+      const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51]; 
+      const note = notes[Math.floor(Math.random() * notes.length)];
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(note, now);
+      osc.frequency.exponentialRampToValueAtTime(note * 1.5, now + 0.3);
+
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.4);
+    }
+
+    // Audio Toggle Logic
+    const audioBtn = document.getElementById('audioBtn');
+    const audioText = document.getElementById('audioText');
+    const audioIcon = document.getElementById('audioIcon');
+
+    audioBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevents spawning letter on button click
+      initAudio();
+      audioEnabled = !audioEnabled;
+
+      if (audioEnabled) {
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        audioText.innerText = 'Magic Audio: ON';
+        audioIcon.className = 'fa-solid fa-wand-magic-sparkles text-yellow-400 animate-spin';
+        playMagicChime();
+      } else {
+        audioText.innerText = 'Magic Audio: OFF';
+        audioIcon.className = 'fa-solid fa-wand-magic-sparkles text-gray-400';
+      }
+    });
+
+    /* ===================================================
+       4. GLOBAL CLICK INTERACTION
+       =================================================== */
+    window.addEventListener('click', (e) => {
+      // Don't spawn when clicking links/buttons directly
+      if (e.target.closest('a') || e.target.closest('button')) return;
+
+      spawnHogwartsLetter(e.clientX, e.clientY);
+      createLumosSparks(e.clientX, e.clientY);
+      playMagicChime();
+    });
+
+    // Special FX when clicking the CTA button
+    const owlDispatchBtn = document.getElementById('owlDispatchBtn');
+    owlDispatchBtn.addEventListener('click', () => {
+      // Make Hedwig swoop towards center
+      hedwig.y = Math.max(50, window.innerHeight * 0.15);
+      hedwig.vx = 4; // Fast swoop
+      setTimeout(() => { hedwig.vx = 1.2; }, 3500);
+    });
+  </script>
 </body>
 </html>
