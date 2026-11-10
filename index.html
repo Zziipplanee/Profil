@@ -18,8 +18,8 @@
       --gold-accent: #ffd700;
       --gold-glow: rgba(255, 215, 0, 0.4);
       --magic-purple: #9d4edd;
-      --glass-bg: rgba(18, 10, 36, 0.55);
-      --glass-border: rgba(212, 175, 55, 0.3);
+      --glass-bg: rgba(18, 10, 36, 0.65);
+      --glass-border: rgba(212, 175, 55, 0.35);
     }
 
     body {
@@ -52,8 +52,8 @@
     /* Glassmorphism Card styling */
     .glass-card {
       background: var(--glass-bg);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--glass-border);
       box-shadow: 0 0 35px rgba(157, 78, 221, 0.25), inset 0 0 15px rgba(212, 175, 55, 0.1);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -61,6 +61,24 @@
 
     .glass-card:hover {
       box-shadow: 0 0 45px rgba(255, 215, 0, 0.35), inset 0 0 20px rgba(157, 78, 221, 0.2);
+    }
+
+    /* Perched Hedwig SVG Element on Top Right Corner of Card */
+    .perched-hedwig {
+      position: absolute;
+      top: -46px;
+      right: 20px;
+      width: 54px;
+      height: 60px;
+      z-index: 25;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
+      animation: gentleBreathe 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes gentleBreathe {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-2px) rotate(1deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
     }
 
     /* Floating Hogwarts Letter Element */
@@ -141,6 +159,38 @@
   <!-- Main Glassmorphism Profile Card -->
   <main class="relative z-10 w-full max-w-md glass-card rounded-3xl p-6 sm:p-8 text-center my-auto">
     
+    <!-- Hedwig Perched on Top Frame -->
+    <div class="perched-hedwig" title="Hedwig perching on your profile frame">
+      <svg viewBox="0 0 50 55" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+        <!-- Body -->
+        <rect x="15" y="18" width="20" height="26" rx="10" fill="#FFFFFF"/>
+        <!-- Head -->
+        <circle cx="25" cy="16" r="11" fill="#FFFFFF"/>
+        <!-- Eyes -->
+        <circle cx="21" cy="15" r="2.5" fill="#FFD700"/>
+        <circle cx="21" cy="15" r="1.2" fill="#000000"/>
+        <circle cx="29" cy="15" r="2.5" fill="#FFD700"/>
+        <circle cx="29" cy="15" r="1.2" fill="#000000"/>
+        <!-- Beak -->
+        <polygon points="25,18 23,21 27,21" fill="#D97706"/>
+        <!-- Wings -->
+        <path d="M12 22C12 22 10 32 16 38" stroke="#E2E8F0" stroke-width="4" stroke-linecap="round"/>
+        <path d="M38 22C38 22 40 32 34 38" stroke="#E2E8F0" stroke-width="4" stroke-linecap="round"/>
+        <!-- Feather Marks -->
+        <circle cx="22" cy="27" r="1" fill="#94A3B8"/>
+        <circle cx="28" cy="29" r="1" fill="#94A3B8"/>
+        <circle cx="24" cy="33" r="1" fill="#94A3B8"/>
+        <!-- Tail Feathers -->
+        <rect x="22" y="42" width="6" height="8" rx="2" fill="#F1F5F9"/>
+        <!-- Claws gripping frame edge -->
+        <rect x="19" y="43" width="4" height="4" rx="1" fill="#D97706"/>
+        <rect x="27" y="43" width="4" height="4" rx="1" fill="#D97706"/>
+        <!-- Tiny Envelope in Beak -->
+        <rect x="21" y="21" width="8" height="6" rx="1" fill="#FEF3C7" stroke="#D97706" stroke-width="0.5"/>
+        <circle cx="25" cy="24" r="1" fill="#DC2626"/>
+      </svg>
+    </div>
+
     <!-- Top Role Badge -->
     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-yellow-400/50 bg-yellow-500/10 text-yellow-300 font-semibold text-xs tracking-widest uppercase mb-5 badge-pulse">
       <i class="fa-solid fa-bolt text-yellow-400"></i>
@@ -151,44 +201,51 @@
     <h1 class="font-cinzel text-2xl sm:text-3xl font-black text-white tracking-wider mb-1 drop-shadow-[0_0_12px_rgba(255,215,0,0.5)]">
       IRMA MULYA ADNANDITA
     </h1>
-    <p class="text-sm text-purple-200/80 mb-6 font-medium">
+    <p class="text-sm text-purple-200/80 mb-5 font-medium">
       Communication & Information Management
     </p>
 
     <!-- Bio Summary -->
-    <p class="text-xs sm:text-sm text-purple-100/70 italic mb-6 leading-relaxed bg-black/20 p-3 rounded-xl border border-white/5">
+    <p class="text-xs sm:text-sm text-purple-100/70 italic mb-5 leading-relaxed bg-black/20 p-3 rounded-xl border border-white/5">
       🔮 Capturing Muggle moments through the lens, managing data streams, and awaiting the Hogwarts owl that lost its way.
     </p>
 
-    <!-- Skill Pills Grid -->
-    <div class="flex flex-wrap justify-center gap-2 mb-6">
-      <div class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-medium text-purple-200 flex items-center gap-1.5 hover:border-purple-400/50 transition cursor-default">
-        <i class="fa-solid fa-cloud text-sky-400"></i> Cloud Computing
+    <!-- Customized Spells & Mastery Badges (Redesigned arrangement) -->
+    <div class="space-y-2 mb-6">
+      <div class="flex flex-wrap justify-center gap-2">
+        <div class="px-3 py-1.5 rounded-full bg-indigo-950/60 border border-purple-500/40 text-xs font-semibold text-purple-200 flex items-center gap-2 shadow-md hover:border-yellow-400/60 transition cursor-default">
+          <i class="fa-solid fa-cloud-arrow-up text-sky-400"></i> Cloud Arcana
+        </div>
+        <div class="px-3 py-1.5 rounded-full bg-indigo-950/60 border border-purple-500/40 text-xs font-semibold text-purple-200 flex items-center gap-2 shadow-md hover:border-yellow-400/60 transition cursor-default">
+          <i class="fa-solid fa-wand-magic-sparkles text-yellow-400"></i> Web Sorcery
+        </div>
       </div>
-      <div class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-medium text-purple-200 flex items-center gap-1.5 hover:border-purple-400/50 transition cursor-default">
-        <i class="fa-solid fa-wand-magic text-yellow-400"></i> Web Sorcery
-      </div>
-      <div class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-medium text-purple-200 flex items-center gap-1.5 hover:border-purple-400/50 transition cursor-default">
-        <i class="fa-solid fa-database text-indigo-400"></i> Data Systems
-      </div>
-      <div class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-medium text-purple-200 flex items-center gap-1.5 hover:border-purple-400/50 transition cursor-default">
-        <i class="fa-solid fa-camera text-pink-400"></i> Muggle Lens
+      <div class="flex flex-wrap justify-center gap-2">
+        <div class="px-3 py-1.5 rounded-full bg-indigo-950/60 border border-purple-500/40 text-xs font-semibold text-purple-200 flex items-center gap-2 shadow-md hover:border-yellow-400/60 transition cursor-default">
+          <i class="fa-solid fa-scroll text-amber-400"></i> Data Archives
+        </div>
+        <div class="px-3 py-1.5 rounded-full bg-indigo-950/60 border border-purple-500/40 text-xs font-semibold text-purple-200 flex items-center gap-2 shadow-md hover:border-yellow-400/60 transition cursor-default">
+          <i class="fa-solid fa-camera-retro text-pink-400"></i> Muggle Lens
+        </div>
       </div>
     </div>
 
-    <!-- Stats Counter Box -->
-    <div class="grid grid-cols-3 gap-2 bg-black/40 p-3 rounded-2xl border border-white/10 mb-6">
+    <!-- Stats Counter Box with Custom Fields (Butterbeer Energy) -->
+    <div class="grid grid-cols-3 gap-2 bg-gradient-to-b from-purple-950/40 to-black/60 p-3.5 rounded-2xl border border-yellow-500/20 mb-6 shadow-inner">
       <div class="text-center p-1">
-        <div class="font-cinzel text-lg sm:text-xl font-bold text-yellow-300">100+</div>
-        <div class="text-[10px] sm:text-xs text-purple-300/70 uppercase tracking-wide">Spells Cast</div>
+        <div class="font-cinzel text-lg sm:text-xl font-black text-yellow-300">100+</div>
+        <div class="text-[10px] text-purple-300/80 uppercase font-semibold tracking-wider mt-1">Spells Cast</div>
       </div>
       <div class="text-center p-1 border-x border-white/10">
-        <div class="font-cinzel text-lg sm:text-xl font-bold text-yellow-300">174+</div>
-        <div class="text-[10px] sm:text-xs text-purple-300/70 uppercase tracking-wide">Skills Acquired</div>
+        <div class="font-cinzel text-lg sm:text-xl font-black text-yellow-300">174+</div>
+        <div class="text-[10px] text-purple-300/80 uppercase font-semibold tracking-wider mt-1">Skills Mastered</div>
       </div>
       <div class="text-center p-1">
-        <div class="font-cinzel text-lg sm:text-xl font-bold text-yellow-300">50%</div>
-        <div class="text-[10px] sm:text-xs text-purple-300/70 uppercase tracking-wide">Coffee Energy</div>
+        <div class="font-cinzel text-lg sm:text-xl font-black text-amber-400 flex items-center justify-center gap-1">
+          <span>99%</span>
+          <i class="fa-solid fa-beer-mug-empty text-xs text-amber-300"></i>
+        </div>
+        <div class="text-[9px] sm:text-[10px] text-purple-300/80 uppercase font-semibold tracking-wider mt-1">Butterbeer Energy</div>
       </div>
     </div>
 
@@ -209,7 +266,7 @@
 
   <script>
     /* ===================================================
-       1. CANVAS PIXEL ART ENGINE (Hogwarts Castle & Hedwig)
+       1. CANVAS PIXEL ART ENGINE (Hogwarts Castle & Golden Snitches)
        =================================================== */
     const canvas = document.getElementById('pixelCanvas');
     const ctx = canvas.getContext('2d');
@@ -217,23 +274,22 @@
     let width, height;
     let stars = [];
     let particles = [];
-    let letters = [];
+    let snitches = [];
 
-    // Hedwig Owl State
-    const hedwig = {
-      x: -50,
-      y: 120,
-      vx: 1.2,
-      vy: 0,
-      wingState: 0,
-      wingTimer: 0,
-      scale: 2.2
-    };
+    // Initialize Golden Snitches with random fast trajectories & fluttering wings
+    function initSnitches() {
+      snitches = [
+        { x: width * 0.2, y: height * 0.25, vx: 3.5, vy: -1.8, wingAngle: 0 },
+        { x: width * 0.75, y: height * 0.15, vx: -2.8, vy: 2.2, wingAngle: 1.5 },
+        { x: width * 0.5, y: height * 0.4, vx: 4.0, vy: -2.5, wingAngle: 0.8 }
+      ];
+    }
 
     function resizeCanvas() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
       initStars();
+      initSnitches();
     }
 
     function initStars() {
@@ -256,7 +312,7 @@
       const startX = width / 2 - castleWidth / 2;
       const baseY = height;
 
-      ctx.fillStyle = '#060212'; // Deep silhouette background
+      ctx.fillStyle = '#060212'; 
 
       // Distant Mountains Silhouette
       ctx.beginPath();
@@ -271,15 +327,12 @@
       ctx.fill();
 
       // Hogwarts Main Silhouettes (Pixelated Towers & Roofs)
-      const px = 4; // Pixel block size
-
       function drawPixelRect(x, y, w, h, color) {
         ctx.fillStyle = color;
         ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
       }
 
       const cBase = '#0c0620';
-      const cHighlight = '#180e38';
       const cWindow = '#ffd700';
 
       // Great Hall & Main Keeps
@@ -289,7 +342,6 @@
       // Spire 1 (Astronomy Tower - Tallest)
       const t1X = startX + 100;
       drawPixelRect(t1X, baseY - 310, 40, 150, cBase);
-      // Spire Roof
       for (let i = 0; i < 10; i++) {
         drawPixelRect(t1X + i * 2, baseY - 310 - (i * 6), 40 - (i * 4), 6, cBase);
       }
@@ -305,7 +357,7 @@
       drawPixelRect(startX + 60, baseY - 210, 25, 50, cBase);
       drawPixelRect(startX + 340, baseY - 190, 30, 40, cBase);
 
-      // Glowing Windows (Pixelated details)
+      // Glowing Windows
       const windowSpots = [
         {x: t1X + 16, y: baseY - 270},
         {x: t1X + 16, y: baseY - 230},
@@ -333,7 +385,6 @@
       const moonY = height * 0.2;
       const radius = 45;
 
-      // Glow behind moon
       const grad = ctx.createRadialGradient(moonX, moonY, 10, moonX, moonY, 120);
       grad.addColorStop(0, 'rgba(255, 245, 205, 0.4)');
       grad.addColorStop(1, 'rgba(255, 245, 205, 0)');
@@ -342,87 +393,70 @@
       ctx.arc(moonX, moonY, 120, 0, Math.PI * 2);
       ctx.fill();
 
-      // Pixelated Moon Body
       ctx.fillStyle = '#fff9e6';
       ctx.beginPath();
       ctx.arc(moonX, moonY, radius, 0, Math.PI * 2);
       ctx.fill();
 
-      // Moon Craters
       ctx.fillStyle = '#e6dbc2';
       ctx.fillRect(moonX - 15, moonY - 10, 12, 10);
       ctx.fillRect(moonX + 10, moonY + 12, 14, 8);
       ctx.fillRect(moonX - 5, moonY + 18, 8, 8);
     }
 
-    // Hedwig Flying Pixel Art Sprite Renderer
-    function drawHedwig() {
-      ctx.save();
-      ctx.translate(hedwig.x, hedwig.y);
-      ctx.scale(hedwig.scale, hedwig.scale);
+    // Flying Golden Snitches Engine
+    function updateAndDrawSnitches() {
+      snitches.forEach(snitch => {
+        // Move snitch
+        snitch.x += snitch.vx;
+        snitch.y += snitch.vy;
+        snitch.wingAngle += 0.4; // Rapid flapping
 
-      const p = 2; // Pixel scale size for owl
+        // Bounce or turn around edges smoothly
+        if (snitch.x < 50 || snitch.x > width - 50) snitch.vx *= -1;
+        if (snitch.y < 40 || snitch.y > height * 0.6) snitch.vy *= -1;
 
-      // Wing flaps animation calculation
-      hedwig.wingTimer += 0.08;
-      const wingPos = Math.sin(hedwig.wingTimer);
+        // Occasional sudden direction jitter like real Golden Snitch
+        if (Math.random() < 0.02) {
+          snitch.vx += (Math.random() - 0.5) * 2;
+          snitch.vy += (Math.random() - 0.5) * 2;
+        }
 
-      // Body (White Pixel Art Snowy Owl)
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(-4 * p, -3 * p, 8 * p, 8 * p); // Main torso
+        ctx.save();
+        ctx.translate(snitch.x, snitch.y);
 
-      // Head
-      ctx.fillRect(-3 * p, -7 * p, 7 * p, 4 * p);
+        // Golden Sphere Glow
+        ctx.shadowColor = '#FFD700';
+        ctx.shadowBlur = 12;
 
-      // Eyes (Yellow with Black Pupil)
-      ctx.fillStyle = '#ffd700';
-      ctx.fillRect(1 * p, -6 * p, 2 * p, 2 * p);
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(2 * p, -6 * p, 1 * p, 1 * p);
+        // Snitch Golden Orb
+        ctx.fillStyle = '#FFD700';
+        ctx.beginPath();
+        ctx.arc(0, 0, 5, 0, Math.PI * 2);
+        ctx.fill();
 
-      // Beak
-      ctx.fillStyle = '#dda15e';
-      ctx.fillRect(3 * p, -4 * p, 2 * p, 1 * p);
+        // Silver Fluttering Wings
+        ctx.shadowColor = '#FFFFFF';
+        ctx.shadowBlur = 6;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.lineWidth = 1.5;
 
-      // Feather spots (Snowy owl details)
-      ctx.fillStyle = '#4a4e69';
-      ctx.fillRect(-2 * p, -1 * p, 1 * p, 1 * p);
-      ctx.fillRect(0, 1 * p, 1 * p, 1 * p);
-      ctx.fillRect(-2 * p, 3 * p, 1 * p, 1 * p);
+        const wingYOffset = Math.sin(snitch.wingAngle) * 8;
 
-      // Tail Feathers
-      ctx.fillStyle = '#f8f9fa';
-      ctx.fillRect(-7 * p, 1 * p, 3 * p, 2 * p);
+        // Left Wing
+        ctx.beginPath();
+        ctx.moveTo(-3, 0);
+        ctx.quadraticCurveTo(-10, -8 + wingYOffset, -16, -2 + wingYOffset);
+        ctx.stroke();
 
-      // Wings (Animated position)
-      ctx.fillStyle = '#edf2f4';
-      if (wingPos > 0) {
-        // Wings Up
-        ctx.fillRect(-5 * p, -8 * p, 5 * p, 6 * p);
-        ctx.fillRect(-8 * p, -11 * p, 4 * p, 4 * p);
-      } else {
-        // Wings Down
-        ctx.fillRect(-5 * p, 0 * p, 5 * p, 6 * p);
-        ctx.fillRect(-8 * p, 4 * p, 4 * p, 4 * p);
-      }
+        // Right Wing
+        ctx.beginPath();
+        ctx.moveTo(3, 0);
+        ctx.quadraticCurveTo(10, -8 + wingYOffset, 16, -2 + wingYOffset);
+        ctx.stroke();
 
-      // Hogwarts Letter carried in claws!
-      ctx.fillStyle = '#fefae0'; // Envelope paper
-      ctx.fillRect(-1 * p, 5 * p, 5 * p, 3 * p);
-      ctx.fillStyle = '#b7094c'; // Red Wax Seal
-      ctx.fillRect(1 * p, 6 * p, 1 * p, 1 * p);
-
-      ctx.restore();
-
-      // Update position
-      hedwig.x += hedwig.vx;
-      hedwig.y += Math.sin(hedwig.x * 0.015) * 0.5;
-
-      // Loop Hedwig across screen
-      if (hedwig.x > width + 60) {
-        hedwig.x = -60;
-        hedwig.y = 80 + Math.random() * (height * 0.3);
-      }
+        ctx.restore();
+      });
     }
 
     // Lumos Particle Effect Logic
@@ -467,7 +501,6 @@
 
     // Main Render Loop
     function animate() {
-      // Clear with dark sky tone
       ctx.fillStyle = '#05020a';
       ctx.fillRect(0, 0, width, height);
 
@@ -481,7 +514,7 @@
 
       drawPixelMoon();
       drawPixelCastle();
-      drawHedwig();
+      updateAndDrawSnitches();
       updateAndDrawParticles();
 
       requestAnimationFrame(animate);
